@@ -35,7 +35,8 @@ class GameBoard extends StatefulWidget {
 class _GameBoardState extends State<GameBoard> {
   static final length = 3;
   static final double wl = 125;
-  String prevMove = States.empty; //start at empty and make default case player X
+  String prevMove =
+      States.empty; //start at empty and make default case player X
 
   late List<List<String>>
       board; //set late here since it won't be initialized til later
@@ -92,7 +93,8 @@ class _GameBoardState extends State<GameBoard> {
     }
   }
 
-  bool noMoves() => board.every((row) => row.every((str) => str != States.empty)); //similar to javascript's Array.every function
+  bool noMoves() => board.every((row) => row.every((str) =>
+      str != States.empty)); //similar to javascript's Array.every function
 
   bool checkWin(int row, int col) {
     //yoinked clever algorithm from here: https://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over/1058804#1058804
@@ -116,13 +118,20 @@ class _GameBoardState extends State<GameBoard> {
     return Scaffold(
         backgroundColor: Colors.yellow,
         appBar: AppBar(
-          title: Center(child: Text('Tic-Tac-Toe', textAlign: TextAlign.center,)),
+          centerTitle: true,
+          title: Text(
+            'Tic-Tac-Toe',
+            textAlign: TextAlign.center,
+          ),
           backgroundColor: Colors.black,
-          actions: [IconButton(onPressed: _scoreBoard, icon: Icon(Icons.assessment)), const Tooltip(message: "ScoreBoard")],
+          actions: [
+            IconButton(onPressed: _scoreBoard, icon: Icon(Icons.assessment)),
+            const Tooltip(message: "ScoreBoard")
+          ],
         ),
         body: Center(
             child: Table(
-          defaultColumnWidth: FixedColumnWidth(125.0),
+          defaultColumnWidth: const FixedColumnWidth(125.0),
           children: [
             TableRow(children: [
               buildSlot(0, 0),
@@ -138,25 +147,39 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _scoreBoard() {
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) { //pushes the new route on top of the navigator stack
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) {
+      //pushes the new route on top of the navigator stack
       int index = 0;
       final tiles = scores.map((score) {
         index++;
         final player = index == 1 ? "X" : 'O';
-        return ListTile(
-          contentPadding: EdgeInsets.all(20.0),
-          title: Center(child: Text("Player $player : $score", style: const TextStyle(fontSize: 50.0)),
-        ));
+        return Container(
+            padding: const EdgeInsets.only(top: 50, bottom: 50),
+            child: Center(
+                child: Text("Player $player : $score",
+                    style: const TextStyle(fontSize: 50.0))));
       });
-      final display = ListTile.divideTiles(
-              context: context,
-              tiles: tiles,
-            ).toList();
+      // final display = ListTile.divideTiles(
+      //         context: context,
+      //         tiles: tiles,
+      //       ).toList();
 
-       return Scaffold(
-        appBar: AppBar(title: Center(child: Text('Score Board',)), backgroundColor: Colors.black,),
-        body: ListView(children: display, padding: EdgeInsets.only(top: 300),
-      ), backgroundColor: Colors.yellow,); 
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            'Score Board',
+          ),
+          backgroundColor: Colors.black,
+        ),
+        body: Center(
+            child: ListView(
+          children: tiles.toList(),
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(20.0)
+        )),
+        backgroundColor: Colors.yellow,
+      );
     }));
   }
 
@@ -164,8 +187,14 @@ class _GameBoardState extends State<GameBoard> {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-          title: Text(text, textAlign: TextAlign.center,),
-          content: Text('Press restart to play again.', textAlign: TextAlign.center,),
+          title: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            'Press restart to play again.',
+            textAlign: TextAlign.center,
+          ),
           actions: [
             ElevatedButton(
               onPressed: () {
