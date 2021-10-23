@@ -83,7 +83,8 @@ class _GameBoardState extends State<GameBoard> {
 
       if (checkWin(row, col)) {
         //win con
-        winner("Player $value won!");
+        final index = value == 'X' ? 1 : 2;
+        winner("Player $index ($value) won!");
         setState(() {
           value == 'X' ? scores[0]++ : scores[1]++;
         });
@@ -156,7 +157,7 @@ class _GameBoardState extends State<GameBoard> {
         return Container(
             padding: const EdgeInsets.only(top: 50, bottom: 50),
             child: Center(
-                child: Text("Player $player : $score",
+                child: Text("Player $index ($player) : $score",
                     style: const TextStyle(fontSize: 50.0))));
       });
       // final display = ListTile.divideTiles(
